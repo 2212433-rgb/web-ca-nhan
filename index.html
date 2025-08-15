@@ -15,34 +15,90 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background: linear-gradient(-45deg, #0077be, #006ba6, #003f5c, #2a5298, #1e40af, #0ea5e9);
             background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            animation: oceanWaves 20s ease infinite;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        @keyframes gradientShift {
+        /* Ocean wave animation */
+        @keyframes oceanWaves {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            33% { background-position: 100% 30%; }
+            66% { background-position: 0% 70%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* Floating bubbles effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.06) 3px, transparent 3px),
+                radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+            background-size: 100px 100px, 150px 150px, 200px 200px, 80px 80px, 120px 120px;
+            animation: floatingBubbles 25s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatingBubbles {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 2;
         }
 
         .profile-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
             padding: 40px;
             margin: 20px 0;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0, 119, 190, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
             animation: slideUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: rotate(-45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .profile-card:hover::before {
+            animation: shimmer 2s ease-in-out;
+            opacity: 1;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(-45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(-45deg); }
         }
 
         @keyframes slideUp {
@@ -57,8 +113,8 @@
         }
 
         .profile-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            transform: translateY(-15px);
+            box-shadow: 0 35px 70px rgba(0, 119, 190, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2);
         }
 
         .header {
@@ -72,20 +128,47 @@
             border-radius: 50%;
             margin: 0 auto 30px;
             display: block;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: 4px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, #0ea5e9, #0077be, #006ba6);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 60px;
             color: white;
             font-weight: bold;
+            box-shadow: 0 20px 40px rgba(0, 119, 190, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-img::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.4s ease;
+            opacity: 0;
         }
 
         .profile-img:hover {
-            transform: scale(1.05) rotate(5deg);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: scale(1.08) rotate(3deg);
+            box-shadow: 0 25px 50px rgba(0, 119, 190, 0.5);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .profile-img:hover::before {
+            opacity: 1;
+            animation: profileShimmer 1.5s ease-in-out;
+        }
+
+        @keyframes profileShimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         .name {
@@ -93,14 +176,19 @@
             font-weight: bold;
             color: white;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 8px rgba(0, 119, 190, 0.6);
+            background: linear-gradient(135deg, #ffffff, #e0f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .title {
             font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 30px;
             font-weight: 300;
+            text-shadow: 1px 1px 3px rgba(0, 119, 190, 0.4);
         }
 
         .contact-info {
@@ -117,17 +205,20 @@
             gap: 10px;
             color: white;
             text-decoration: none;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 119, 190, 0.2);
         }
 
         .contact-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 119, 190, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .section {
@@ -141,6 +232,7 @@
             text-align: center;
             position: relative;
             padding-bottom: 10px;
+            text-shadow: 1px 1px 4px rgba(0, 119, 190, 0.5);
         }
 
         .section-title::after {
@@ -149,17 +241,19 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(45deg, #f093fb, #f5576c);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, #0ea5e9, #0077be, #006ba6);
             border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0, 119, 190, 0.4);
         }
 
         .section-content {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             font-size: 1.1rem;
             line-height: 1.8;
             text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 119, 190, 0.3);
         }
 
         .skills-grid {
@@ -170,17 +264,38 @@
         }
 
         .skill-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 20px;
             text-align: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 119, 190, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .skill-item:hover::before {
+            left: 100%;
         }
 
         .skill-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 119, 190, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .skill-name {
@@ -188,10 +303,11 @@
             font-weight: bold;
             margin-bottom: 10px;
             font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0, 119, 190, 0.4);
         }
 
         .skill-level {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             font-size: 0.9rem;
         }
 
@@ -203,73 +319,102 @@
         }
 
         .social-link {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             text-decoration: none;
-            font-size: 24px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            font-size: 28px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 119, 190, 0.2);
         }
 
         .social-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-8px) scale(1.15) rotate(5deg);
+            box-shadow: 0 20px 40px rgba(0, 119, 190, 0.4);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .experience-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
             margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 119, 190, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #0ea5e9, #0077be);
+            transform: scaleY(0);
+            transition: all 0.4s ease;
+            transform-origin: bottom;
+        }
+
+        .experience-item:hover::before {
+            transform: scaleY(1);
         }
 
         .experience-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateX(15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 119, 190, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .experience-title {
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
             margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 119, 190, 0.4);
         }
 
         .experience-company {
-            color: #f093fb;
+            color: #7dd3fc;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
         }
 
         .experience-period {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
             margin-bottom: 15px;
+            font-style: italic;
         }
 
         .experience-description {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.7;
         }
 
         @media (max-width: 768px) {
             .name {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .profile-img {
-                width: 150px;
-                height: 150px;
-                font-size: 40px;
+                width: 160px;
+                height: 160px;
+                font-size: 45px;
             }
             
             .contact-info {
@@ -282,7 +427,14 @@
             }
             
             .profile-card {
-                padding: 20px;
+                padding: 25px;
+                margin: 10px;
+            }
+
+            .social-link {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
             }
         }
     </style>
@@ -291,7 +443,9 @@
     <div class="container">
         <div class="profile-card">
             <div class="header">
-                <div class="profile-img">NA</div>
+                <div class="profile-img">
+            <img src="path/to/quynhnhu.jpeg" alt="Đào Hoàng Quỳnh Như" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
                 <h1 class="name">Đào Hoàng Quỳnh Như</h1>
                 <p class="title">Full Stack Developer & UI/UX Designer</p>
                 
@@ -376,8 +530,8 @@
                 <h2 class="section-title">Học Vấn</h2>
                 <div class="experience-item">
                     <div class="experience-title">Cử Nhân Công Nghệ Thông Tin</div>
-                    <div class="experience-company">Đại học Bách Khoa Hà Nội</div>
-                    <div class="experience-period">2018 - 2022</div>
+                    <div class="experience-company">ĐẠI HỌC ĐÀ LẠT</div>
+                    <div class="experience-period">2022-2026</div>
                     <div class="experience-description">
                         Tốt nghiệp loại Khá với điểm trung bình 7.8/10. 
                         Chuyên ngành Kỹ thuật Phần mềm với đồ án tốt nghiệp về hệ thống quản lý thư viện sử dụng MERN Stack.
@@ -398,49 +552,103 @@
     </div>
 
     <script>
-        // Hiệu ứng xuất hiện từ từ cho các phần tử
+        // Enhanced intersection observer với hiệu ứng mượt mà hơn
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            rootMargin: '0px 0px -30px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
+                    }, index * 100); // Staggered animation
                 }
             });
         }, observerOptions);
 
-        // Áp dụng hiệu ứng cho các phần tử
-        document.querySelectorAll('.section, .skill-item, .experience-item').forEach(el => {
+        // Áp dụng hiệu ứng cho các phần tử với animation delay
+        document.querySelectorAll('.section, .skill-item, .experience-item').forEach((el, index) => {
             el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'all 0.6s ease';
+            el.style.transform = 'translateY(30px) scale(0.98)';
+            el.style.transition = `all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) ${index * 0.1}s`;
             observer.observe(el);
         });
 
-        // Hiệu ứng hover cho avatar
+        // Enhanced avatar hover effects
         const profileImg = document.querySelector('.profile-img');
         profileImg.addEventListener('mouseenter', () => {
-            profileImg.style.background = 'linear-gradient(45deg, #f093fb, #f5576c)';
+            profileImg.style.background = 'linear-gradient(135deg, #0ea5e9, #0284c7, #0369a1)';
         });
         
         profileImg.addEventListener('mouseleave', () => {
-            profileImg.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            profileImg.style.background = 'linear-gradient(135deg, #0ea5e9, #0077be, #006ba6)';
         });
 
-        // Hiệu ứng click cho các liên kết mạng xã hội
-        document.querySelectorAll('.social-link').forEach(link => {
+        // Enhanced social link interactions
+        document.querySelectorAll('.social-link').forEach((link, index) => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                link.style.transform = 'scale(0.95)';
+                link.style.transform = 'scale(0.9) rotate(-5deg)';
                 setTimeout(() => {
-                    link.style.transform = 'translateY(-5px) scale(1.1)';
+                    link.style.transform = 'translateY(-8px) scale(1.15) rotate(5deg)';
                 }, 150);
             });
+
+            // Add subtle continuous animation
+            link.style.animationDelay = `${index * 0.5}s`;
         });
+
+        // Parallax effect for floating elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            document.body.style.transform = `translateY(${rate}px)`;
+        });
+
+        // Add interactive ripple effect to experience items
+        document.querySelectorAll('.experience-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
